@@ -6,8 +6,8 @@
 
 * Branch local y cambios:
 
-[Branch Local y Cambios](./res/changes-on-local-branch.png)
+![Branch Local y Cambios](./res/changes-on-local-branch.png)
 
 * Pull Request y Revisión:
 
-[PR y Revisón](./res/pr-review-process.png)
+![PR y Revisón](./res/pr-review-process.png)
