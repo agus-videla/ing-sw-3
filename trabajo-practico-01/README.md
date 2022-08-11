@@ -9,5 +9,5 @@ Un pull request se puede entender como un desarrollador pidiendo permiso para su
 ![Branch Local y Cambios](./res/changes-on-local-branch.png)
 
 ### Pull Request y Revisión:
-
+conflict
 ![PR y Revisón](./res/pr-review-process.png)
