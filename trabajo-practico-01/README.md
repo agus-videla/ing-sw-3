@@ -14,4 +14,4 @@ Un pull request se puede entender como un desarrollador pidiendo permiso para su
 
 ## 5
 
-Esta linea va a demostrar un merge conflict.
+Esta linea va a demostrar un merge conflict. A continuación coloco una imagen de la herramienta para resolver conflictos:
