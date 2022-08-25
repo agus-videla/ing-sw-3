@@ -43,4 +43,90 @@ Digest: sha256:250221bea53e4e8f99a7ce79023c978ba0df69bdfe620401756da46e34b7c80b
 Status: Downloaded newer image for alexisfr/flask-app:latest 
 d9bf9c917d1edadf5d7c97a896df91a1dcb72be2b64cca2290f3e0946b9fa870 
 ```
+Compruebo el correcto funcionamiento de la webapp:
+
+![Hello from Redis](res/webapp-working.png)
+
+El único puerto abierto es el puerto 5000. El puerto 6379 es sólo accesible por la webapp a través del bridge.
+
+El comando y los detalles de la red son:
+
+```
+❯ docker network inspect ing_tp3 
+[ 
+    { 
+        "Name": "ing_tp3", 
+        "Id": "45ff342206aab665f18b49a31c1e131c1c3bf56b9c1de7f1769aac2ac295160c", 
+        "Created": "2022-08-25T14:28:33.94512011-03:00", 
+        "Scope": "local", 
+        "Driver": "bridge", 
+        "EnableIPv6": false, 
+        "IPAM": { 
+            "Driver": "default", 
+            "Options": {}, 
+            "Config": [ 
+                { 
+                    "Subnet": "172.19.0.0/16", 
+                    "Gateway": "172.19.0.1" 
+                } 
+            ] 
+        }, 
+        "Internal": false, 
+        "Attachable": false, 
+        "Ingress": false, 
+        "ConfigFrom": { 
+            "Network": "" 
+        }, 
+        "ConfigOnly": false, 
+        "Containers": { 
+            "c28ebff97cae1452670cb31ad8fe6088a0400724ec00c71064ae962827490f3d": { 
+                "Name": "redis", 
+                "EndpointID": "ca51b9223a9823ab7eeac7b0f940dc2f4486b7076db76bbd4c8ea1d791e5af06", 
+                "MacAddress": "02:42:ac:13:00:02", 
+                "IPv4Address": "172.19.0.2/16", 
+                "IPv6Address": "" 
+            }, 
+            "d9bf9c917d1edadf5d7c97a896df91a1dcb72be2b64cca2290f3e0946b9fa870": { 
+                "Name": "webapp", 
+                "EndpointID": "b53938a4061b71fb22046d25d8b097a9c0f2a253d7958c890d0d6a9f58fd2b47", 
+                "MacAddress": "02:42:ac:13:00:03", 
+                "IPv4Address": "172.19.0.3/16", 
+                "IPv6Address": "" 
+            } 
+        }, 
+        "Options": {}, 
+        "Labels": {} 
+    } 
+] 
+```
+
+## 2
+
+La aplicación se conecta a la base de datos e incrementa un contador cada vez que se abre. Luego muestra un mensaje de Hello junto con el valor del contador.
+
+El parámetro -e permite setear variables de entorno, en este caso se utilizan para colocar el nombre de la base de datos y el puerto al que se conecta para que la weapp pueda hacer la conexión.
+
+Si borro el contenedor de la webapp y lo vuelvo a instanciar no ocurren cambios porque la base de datos sigue en pie manteniendo el contador.
+
+Si borro el contenedor de la base de datos la página web tira un error porque no encuentra la conexión. Al volver a instanciar la db la información de la cantidad de visitas se pierda y vuelve a comenzar desde el 1.
+
+Para mantener los datos dentro del contenedor se puede setear un volumen local para que redis guarde y busque los datos.
+Según la página oficial de la imagen de redis la persistencia se habilita con:
+
+```
+$ redis-server --save 60 1 --loglevel warning
+```
+
+Con el comando anterior redis guarda los datos en /data.
+
+Por lo tanto, el comando para iniciar el contenedor de manera persistente y setear un volumen local es:
+
+```
+❯ docker run -d --net ing_tp3 -v /home/agus/Documents/facultad/cursada_2022/ing-sw-3/practico/ing-sw-3/trabajo-practico-03/redis_data/:/data --name redis redis:alpine redis-server --save 10 1
+9276cf942717996e1a81e3d9b80285d8fb0dedbd140e1c58831fc82c47304ffd
+```
+
+Siguiendo estos pasos, la base de datos puede ser desinstalada e instalada sin perder información.
+
+## 3
 
