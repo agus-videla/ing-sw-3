@@ -130,7 +130,7 @@ Siguiendo estos pasos, la base de datos puede ser desinstalada e instalada sin p
 
 ## 3
 
-Docker-compose creo los contenedores y los instació basándose en los atributos especificados en el archivo docker-compose.yml
+Docker-compose creó los contenedores y los instació basándose en los atributos especificados en el archivo docker-compose.yml
 
 ```
 ❯ docker ps
@@ -156,3 +156,39 @@ local     ece0e91b56e4d3fb5665f6751f3756763dba9dcef30a6ce57c6c08f5a2e3d008
 local     trabajo-practico-03_redis_data
 ```
 
+## 4
+
+Clono el repo:
+
+```
+❯ git clone https://github.com/dockersamples/example-voting-app 
+Cloning into 'example-voting-app'... 
+remote: Enumerating objects: 985, done. 
+remote: Total 985 (delta 0), reused 0 (delta 0), pack-reused 985 
+Receiving objects: 100% (985/985), 1002.01 KiB | 435.00 KiB/s, done. 
+Resolving deltas: 100% (350/350), done. 
+```
+
+Levanto docker-compose:
+
+```
+❮ docker-compose -f docker-compose-javaworker.yml up -d
+[+] Running 5/5
+ ⠿ Container db                           Running
+ ⠿ Container example-voting-app-worker-1  Running
+ ⠿ Container redis                        Running
+ ⠿ Container example-voting-app-result-1  Running
+ ⠿ Container example-voting-app-vote-1    Started
+```
+
+Compruebo el correcto funcionamiento de la red distribuida:
+
+![Cats vs Dogs](res/voting.png)
+
+Viendo docker-compose-javaworker.yml El sistema consta de:
+
+- 5 contenedores: db, redis, worker, result y vote
+- 3 puertos abiertos: el 5000 para vote, el 5001 y el 5858 para result
+- 3 volumes: 1 para vote, 1 para result y 1 para db. Los 3 están asociados al volumen externo db-data.
+
+## 5
