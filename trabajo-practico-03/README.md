@@ -130,3 +130,29 @@ Siguiendo estos pasos, la base de datos puede ser desinstalada e instalada sin p
 
 ## 3
 
+Docker-compose creo los contenedores y los instació basándose en los atributos especificados en el archivo docker-compose.yml
+
+```
+❯ docker ps
+CONTAINER ID   IMAGE                       COMMAND                  CREATED              STATUS              PORTS                                       NAMES
+6ef9619329f6   alexisfr/flask-app:latest   "python /app.py"         About a minute ago   Up About a minute   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   trabajo-practico-03-app-1
+607c93263796   redis:alpine                "docker-entrypoint.s…"   About a minute ago   Up About a minute   6379/tcp                                    trabajo-practico-03-db-1
+❯ docker network ls
+NETWORK ID     NAME                          DRIVER    SCOPE
+030b0a91bf09   bridge                        bridge    local
+6589c19db192   cassandra_cassandra           bridge    local
+de43d69828e6   host                          host      local
+45ff342206aa   ing_tp3                       bridge    local
+c99374b7ac63   none                          null      local
+33c5d59cd582   trabajo-practico-03_default   bridge    local
+❯ docker volume ls
+DRIVER    VOLUME NAME
+local     4b557335c281bfc48136b6b38da6635269c822725c36372370fbd8bacaa8340a
+local     5f9db76e949dc50f4dc3ebec213a2e235a22b78a347d843781510a732e23450b
+local     8cde4697b8e447847212a46e64f5d425ed5fbce1b15af1218b1fdfbd11cc79fe
+local     41e99d03baa5feb3fe2a2b75e932cbd3cc857adc730710a6512ead8356d8c4e0
+local     ac7006a458d6acb078687174d36b025619ed7bfd7faae7184e808f386a1afca6
+local     ece0e91b56e4d3fb5665f6751f3756763dba9dcef30a6ce57c6c08f5a2e3d008
+local     trabajo-practico-03_redis_data
+```
+
