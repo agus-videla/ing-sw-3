@@ -77,6 +77,16 @@ Configuré las credenciales para acceder a Docker Hub:
 
 Utilizé el plugin de docker pipeline para acceder a mi repositorio de git, crear una imagen utilizando la Dockerfile y subir la imagen a Docker Hub con mis credenciales. El script utilizado fue:
 
-![Jenkisfile](spring-boot/Jenkinsfile2)
+[Jenkinsfile](spring-boot/Jenkinsfile2)
+
+```
+node {
+    git 'https://github.com/videla98/spring-boot'
+    def spring = docker.build 'coffeedude98/spring-boot:latest'
+  withDockerRegistry(registry: [credentialsId: 'docker-hub']) {
+        spring.push 'latest'
+    }
+}
+```
 
 ![Docker Hub](res/dockerhub.png)
