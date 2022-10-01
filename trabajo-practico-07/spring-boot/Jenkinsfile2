@@ -1,0 +1,7 @@
+node {
+    git 'https://github.com/videla98/spring-boot'
+    def spring = docker.build 'coffeedude98/spring-boot:latest'
+  withDockerRegistry(registry: [credentialsId: 'docker-hub']) {
+        spring.push 'latest'
+    }
+}
